@@ -247,7 +247,64 @@ Trabalharemos com Bootstrap, para criarmos um tema bem interessante.
 
 ---
 
-## <a name="parte5"> </a>
+## <a name="parte5">Criando primeiro tema</a>
+
+Iniciaremos com a criação de um tema customizado com Wordpress, para que vocês tenham autonomia, suficiente, para criarem seus próprios temas.
+
+Os temas disponíveis estão no painel administrativo na parte de Aparência/Temas. Acessando este setor do painel administrativo, vocês terão acesso ao tema que estiver ativo e aos demais.
+
+O próximo passo será começarmos a criar nosso tema para que ele apareça, nesta tela, junto com os demais.
+
+Primeiro passo
+
+Para criação de um tema, precisamos de uma pasta e dois arquivos. Somente isso, já é a base de um tema. A pasta pode ter o nome que quiserem, pois será um tema personalizado.
+
+Nossa pasta se chamará sonblog. Os arquivos que estarão dentro desta pasta serão: index.php e style.css. No arquivo index, colocaremos uma mensagem, para checar se está funcionando, quando o ativarmos. No arquivo style, teremos que declarar todas as informações do tema, para que o Wordpress consiga reconhecê-lo. Colocaremos informações como: nome, descrição, autor, versão e muitas outras, possíveis.
+
+Conteúdo arquivo index.php
+```
+Blog da School of Net
+```
+Conteúdo arquivo style.css
+```
+/*
+Theme Name: Blog da School of Net
+Theme URI: http://schoolofnet.com
+Author: Luiz Carlos
+Author URI: http://github.com/argentinaluiz
+Description: Tema do Blog da School of Net
+Version: 1.0
+License: MIT
+License URI: http://schoolofnet.com
+Tags: programação, cursos, categorias, tags, posts
+Text Domain: sonblog
+*/
+```
+
+As informações são auto explicativas. Precisamos explicar, apenas, sobre Tags e Text Domain. As tags são utilizadas para identificação, caso queiram disponibilizar o tema na internet e o text domain é utilizado para criação de traduções. Ele serve como um apelido único, que configuramos. Não confundam, text domain, com o nome do tema. São coisas, totalmente, diferentes.
+
+Somente este comentário no arquivo style.css, já é capaz de configurar o tema e fazer com que ele apareça entre os demais. Lembrando que, somente, criar a pasta não fará com que o tema seja reconhecido e nem aceito pelo Wordpress.
+
+A criação, do arquivo index.php e o style.css, é obrigatória. Isso é uma convenção do próprio framework e deve ser mantida.
+
+Se já criaram os arquivos e já editaram o arquivo style, com o comentário acima, o tema já será visualizado, dentro do painel. Observem que ainda não há imagem, como padrão. Ensinaremos como colocar esta imagem.
+
+Basta criarem uma imagem chamada screenshot.png e colocarem dentro do tema. Ele reconhecerá esta imagem e aparecerá, automaticamente. Pegaremos a mesma imagem do tema twentyseventeen, para facilitar o entendimento, mas vocês podem criar a própria imagem, para colocarem no tema.
+
+
+Ativando tema
+
+Após terem criado a estrutura básica de um tema e terem checado o funcionamento, no painel administrativo, falta ativarmos o mesmo. Ativem o tema e acessem a página inicial do site, para checarem se está, realmente, funcionando.
+
+Vocês deverão ver o conteúdo do arquivo index.php(Blog da School of Net).
+
+Se não tivessem criado o arquivo index.php, apareceria um erro no modo debug. 
+
+Conclusão
+
+Vocês podem observar a importância da estrutura mínima que o Wordpress exige para um tema. Não existe um tema sem a pasta principal e os dois arquivos internos, lembrando que a screenshot é opcional.
+
+Agora que já sabemos o procedimento e a estrutura básica, deslancharemos no restante do conteúdo.
 
 [Voltar ao Índice](#indice)
 
