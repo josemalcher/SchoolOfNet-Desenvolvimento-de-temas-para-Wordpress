@@ -332,7 +332,35 @@ Da mesma forma que temos o index, como arquivo principal do tema, o style també
 
 ---
 
-## <a name="parte7"> </a>
+## <a name="parte7">Anatomia de um tema</a>
+
+Para desenvolvermos um tema, temos que entender a estrutura do mesmo. Temos que saber como este tema será mostrado ao usuário.
+
+Para entenderem a anatomia do tema, temos uma imagem, no próprio site do wordpress, que explica o que queremos mostrar. Vejam a imagem abaixo:
+
+![Anatomia de um Tema wordpress](https://github.com/josemalcher/SchoolOfNet-Desenvolvimento-de-temas-para-Wordpress/blob/master/wp-content/themes/son-Desenvolvimento-de-temas-para-Wordpress/img-git/wp_anatomy.png?raw=true)
+
+Quando vocês virem um site, desenvolvido em Wordpress, ele será subdividido em: header, footer, content, seach e sidebars. Nós mostramos o conteúdo com o index, mas podemos, também, mostrar com outros arquivos, o exemplo não é uma regra.
+
+Podemos ter mais do que uma sidebar em uma mesma estrutura.
+
+### Criando arquivos PHP, referentes à anatomia
+
+Sabendo da anatomia, basta iniciarem a criação dos arquivos com os mesmos nomes, presentes na imagem.
+
+* HEADER.PHP
+* INDEX.PHP
+* FOOTER.PHP
+* SEARCH.PHP
+* SIDEBAR.PHP
+
+Além dos arquivos, citados acima, existem outros arquivos que são reservados para o Wordpress, mas falaremos, adiante.
+
+O Wordpress reconhecerá estes arquivos, porque fazem parte da estrutura definida por ele. Apesar de existir uma estrutura pré-definida, vocês têm toda liberdade para criarem a estrutura de pasta, que quiserem, de acordo com a regra de negócio de vocês. Somente o arquivo index.php deve estar na raiz.
+
+Vocês podem, inclusive, copiar a mesma estrutura dos temas padrões do Wordpress, caso tenham alguma dúvida. O importante é saberem que existe uma anatomia e existem alguns arquivos corretos, a serem criados.
+
+Criaremos cada parte desta anatomia, para que vocês possam entender como cada uma delas funciona dentro do Wordpress.
 
 [Voltar ao Índice](#indice)
 
