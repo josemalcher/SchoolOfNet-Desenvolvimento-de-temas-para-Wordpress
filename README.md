@@ -312,6 +312,22 @@ Agora que já sabemos o procedimento e a estrutura básica, deslancharemos no re
 
 ## <a name="parte6">Sobre temas, index.php e style.css</a>
 
+### Sobre temas, index.php e style.css
+No último conteúdo criamos o tema, ativamos e conseguimos mostrá-lo no browser. Tudo está 100%. Explicaremos, melhor, o que significa o que fizemos.
+
+Se observarem o painel administrativo, encontrarão posts, categorias, tags, páginas, menus e tudo que for referente à conteúdo. Este é o papel principal do Wordpress, gerenciar conteúdos.
+
+O tema, nada mais é do que um canal de comunicação com o painel, onde mostraremos os conteúdos aos usuários. Nós gerenciamos os conteúdos no administrativo e mostramos, no front-end, através do nosso tema. Podemos mostrar qualquer conteúdo, da forma que quisermos. Podemos falar que o tema é um molde para mostrarmos os dados.
+
+### index.php
+Este arquivo será a base do nosso template, qualquer fato que ocorra, o Wordpress sempre recorrerá a este arquivo, como última opção. Se, por acaso, algum endereço que não exista for acessado, o Wordpress não encontrará e redirecionará para o arquivo index. Qualquer erro de hierarquia e estrutura, também será redirecionado para o arquivo index.
+
+Podemos dizer que o index é o arquivo principal do nosso tema, mas isso não significa que nosso tema iniciará por ele. É possível iniciar o tema por outro arquivo, mas o template index.php será nossa salvação, caso nada dê certo.
+
+### style.css
+Da mesma forma que temos o index, como arquivo principal do tema, o style também é o arquivo principal, mas da parte de estilização do tema. Não significa que não possamos criar outros arquivos de css, podemos criar a estrutura que quisermos, mas, precisaremos do arquivo style, de qualquer forma, porque ele faz parte da estrutura básica de um tema.
+
+
 [Voltar ao Índice](#indice)
 
 ---
