@@ -310,7 +310,7 @@ Agora que já sabemos o procedimento e a estrutura básica, deslancharemos no re
 
 ---
 
-## <a name="parte6"> </a>
+## <a name="parte6">Sobre temas, index.php e style.css</a>
 
 [Voltar ao Índice](#indice)
 
