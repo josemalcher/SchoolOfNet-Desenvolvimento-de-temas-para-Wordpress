@@ -366,7 +366,119 @@ Criaremos cada parte desta anatomia, para que vocês possam entender como cada u
 
 ---
 
-## <a name="parte8"> </a>
+## <a name="parte8">Header, footer e sidebar</a>
+
+### Header, footer e sidebar
+
+Neste módulo criaremos 3 partes do tema: header, footer e sidebar.
+
+Utilizaremos o Bootstrap para criar toda estilização do tema. Se não conhecem Bootstrap, na School Of Net há cursos sobre esta ferramenta. Vocês podem procurar por este conteúdo no nosso Portal, para conhecerem a ferramenta e aprenderem a utilizá-la. É um framework css muito bom e muito utilizado, que facilita o desenvolvimento de qualquer front-end.
+
+### header.php
+
+O header é o arquivo que abrirá o HTML, carregará o css e algum arquivo javascript, se for necessário.
+
+```html
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog da School of Net</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="row">
+            <h1>Header do Blog</h1>
+        </div>
+    </div>
+</header>
+```
+
+### header-personalizado.php
+```html
+<p>Subheader</p>
+```
+### footer.php
+
+O footer deverá fechar o que foi aberto no header e também podemos carregar algum script, caso faça parte do tema.
+```html
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+```
+
+### footer-personalizado.php
+```html
+<p>footer personalizado</p>
+
+```
+### sidebar.php
+```html
+<p>Sidebar</p>
+```
+
+### sidebar-personalizado.php
+```html
+<p>Sidebar personalizado</p>
+```
+
+### Arquivo index.php
+
+```html
+<?php get_header(); ?>
+<?php get_header('personalizado'); ?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <p>Blog da School of Net</p>
+        </div>
+        <div class="col-md-3">
+            <?php get_sidebar(); ?>
+        </div>
+        <div class="col-md-3">
+            <?php get_sidebar('personalizado'); ?>
+        </div>
+
+    </div>
+</div>
+
+<?php get_footer('personalizado'); ?>
+<?php get_footer(); ?>
+```
+
+### Resumo das funções
+
+* get_header()	- Carrega o header padrão, caso seja passado um parâmetro, ela carrega o header personalizado    
+* get_sidebar() - Carrega o sidebar padrão, caso seja passado um parâmetro, ela carrega o sidebar personalizado   
+* get_footer() - Carrega o footer padrão, caso seja passado um parâmetro, ela carrega o footer personalizado   
+
+Notem que, podemos criar quantos headers quisermos, quantos footers quisermos e quantas sidebars quisermos. Basta acrescentarmos o sufixo, como no exemplo abaixo:
+
+* HEADER-MYHEADER
+* FOOTER-MYFOOTER
+* SIDEBAR-MYSIDEBAR
+
+O importante é o arquivo começar com o mesmo nome e depois do traço podemos colocar o nome que quisermos. Para chamar, basta utilizar as funções, acima, passando o que estiver após o traço, como parâmetro. Vejam o exemplo:
+
+* GET_HEADER('MYHEADER')
+* GET_FOOTER('MYFOOTER')
+* GET_SIDEBAR('MYSIDEBAR')
+
+### Conclusão
+
+Criamos todos os arquivos acima, na pasta raiz e apenas os chamamos no arquivo index.php. Para fazer este carregamento utilizamos as funções do próprio Wordpress.
+
+Desta forma, já montamos a estrutura básica do nosso tema e utilizamos o Bootstrap para separação de blocos. Observem que estamos puxando tudo de CDN, através de links. No final do curso iremos alterar para chamadas locais. Por enquanto, fica assim para facilitar o estudo.
+
+O objetivo desta aula é mostrar a vocês a facilidade que há em trabalhar com o Wordpress e mostrar o nível de personalização que podemos ter, utilizando este framework. Talvez por este motivo ele é uma dos CMS mais utilizados do mundo. Lembrem-se, não sabendo usar as funções corretas e as estruturas corretas, vocês não aproveitarão todos os recursos que ele pode oferecer.
+
+Portanto, pratiquem bastante, criem outros headers, sidebars e footers. Chamem no arquivo index.php e guardem bem este conteúdo.
 
 [Voltar ao Índice](#indice)
 
