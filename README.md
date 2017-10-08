@@ -484,7 +484,86 @@ Portanto, pratiquem bastante, criem outros headers, sidebars e footers. Chamem n
 
 ---
 
-## <a name="parte9"> </a>
+## <a name="parte9">Template tags</a>
+
+No módulo anterior conseguimos mostrar cabeçalho, rodapé e sidebar. Mostramos os templates padrões e também os personalizados. Isso significa que podemos criar mais do que um header, footer ou sidebar.
+
+A todo momento, utilizamos algumas funções que também foram mostradas no final do módulo passado. Estas funções são conhecidas como template tags do Wordpress.
+
+Existem várias tamplate tags, se quiserem saber mais sobre elas, vocês podem pesquisar no Codex do Wordpress, no link abaixo, e tomar conhecimento de todas.
+
+https://codex.wordpress.org/Template_Tags
+
+Se quiserem conferir a implementação, podem acessar o link de wp-includes, nesta mesma página.
+
+Toda template tag estará em um arquivo com o sufixo -template.php. Vejam alguns exemplos:
+
+* WP-INCLUDES/GENERAL-TEMPLATE.PHP
+* WP-INCLUDES/AUTHOR-TEMPLATE.PHP
+* WP-INCLUDES/CATEGORY-TEMPLATE.PHP
+* WP-INCLUDES/POST-THUMBNAIL-TEMPLATE.PHP
+
+Existem as template tags gerais, para mostrar algum tipo de conteúdo como: javascript, style, etc. Falaremos mais sobre isso no final do conteúdo.
+
+Tags
+Quando falamos em tag, referente a estrutura ou template, não estamos falando da mesma tag que é utilizada na criação de um post. Fiquem atentos a diferença.
+
+A tag que falamos neste módulo tem o conceito de uma função que está gerenciando algum tipo de conteúdo ou retornando algum tipo de informação específica.
+
+Temos os seguintes tipos de tags:
+
+* GENERAL TAGS
+* AUTHOR TAGS
+* BOOKMARK TAGS
+* CATEGORY TAGS
+* COMMENT TAGS
+* LINK TAGS
+* POST TAGS
+* POST THUMBNAIL TAGS
+* NAVIGATION MENU TAGS
+
+Se tiverem dúvida sobre qual tag utilizar, basta clicar em cima de cada uma, que terão acesso ao código. Vejam o conteúdo ao clicar na tag get_header().
+
+![CODEX Template Tag](https://github.com/josemalcher/SchoolOfNet-Desenvolvimento-de-temas-para-Wordpress/blob/master/wp-content/themes/son-Desenvolvimento-de-temas-para-Wordpress/img-git/wp_getheader_codex.png?raw=true)
+
+A imagem mostra a descrição e o uso da função. Nesta página encontarão exemplos de aplicação e todas as informações necessárias a respeito da tag. Quanto mais consultarem a documentação mais se familiarizarão, sabendo que é a fonte oficial do funcionamento da função.
+
+Acessando a pasta wp-include e abrindo o arquivo general-template.php temos acesso a função nativa do get_header(). Vejam o código abaixo para entenderem melhor.
+
+```php
+function get_header( $name = null ) {
+    /**
+     * Fires before the header template file is loaded.
+     *
+     * The hook allows a specific header template file to be used in place of the
+     * default header template file. If your file is called header-new.php,
+     * you would specify the filename in the hook as get_header( 'new' ).
+     *
+     * @since 2.1.0
+     * @since 2.8.0 $name parameter added.
+     *
+     * @param string|null $name Name of the specific header file to use. null for the default header.
+     */
+    do_action( 'get_header', $name );
+
+    $templates = array();
+    $name = (string) $name;
+    if ( '' !== $name ) {
+        $templates[] = "header-{$name}.php";
+    }
+
+    $templates[] = 'header.php';
+
+    locate_template( $templates, true );
+}
+```
+Observem que a função recebe um parâmetro opcional. Caso seja passado o parâmetro, ele puxa o header relacionado, caso não passe nada, ele pegará o header.php padrão, assim como mostramos no módulo anterior.
+
+### Conclusão
+
+Vocês têm acesso à todas as funções do Wordpress, para conhecerem o funcionamento. Tentem sempre ir até a fonte da função, ao invés de somente utilizá-la. Assim, vocês entenderão o funcionamento do framework, o que ajudará durante o desenvolvimento de um tema.
+
+Pesquisem mais tags do Codex, para se habituarem com as funções e os modos de pesquisá-las. Isso será muito bom para todos vocês que pretendem trabalhar com a ferramenta.
 
 [Voltar ao Índice](#indice)
 
