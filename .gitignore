@@ -1,5 +1,5 @@
-# Created by .ignore support plugin (hsz.mobi)
-### WordPress template
+# Created by https://www.gitignore.io/api/wordpress
+### WordPress ###
 *.log
 wp-config.php
 wp-content/advanced-cache.php
@@ -11,21 +11,26 @@ wp-content/upgrade/
 wp-content/uploads/
 wp-content/wp-cache-config.php
 wp-content/plugins/hello.php
-
 /.htaccess
 /license.txt
 /readme.html
 /sitemap.xml
 /sitemap.xml.gz
+# End of https://www.gitignore.io/api/wordpress
 
-.htaccess
-.idea/
-index.php
+wp-content/themes/twentyfifteen
+wp-content/themes/twentyseventeen
+wp-content/themes/twentysixteen
+wp-content/languages/
+wp-content/plugins/
+/index.php
 wp-activate.php
 wp-admin/
 wp-blog-header.php
 wp-comments-post.php
 wp-config-sample.php
+wp-content/index.php
+wp-content/themes/index.php
 wp-cron.php
 wp-includes/
 wp-links-opml.php
@@ -36,10 +41,3 @@ wp-settings.php
 wp-signup.php
 wp-trackback.php
 xmlrpc.php
-
-wp-content/themes/twentyfifteen
-wp-content/themes/twentyseventeen
-wp-content/themes/twentysixteen
-
-wp-content/languages/
-wp-content/plugins/
