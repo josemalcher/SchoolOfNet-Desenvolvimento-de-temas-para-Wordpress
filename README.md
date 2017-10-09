@@ -738,7 +738,92 @@ Nos próximos conteúdos vocês entenderão melhor como criar um arquivo especí
 
 ---
 
-## <a name="parte12"> </a>
+## <a name="parte12">Mostrando thumbnail</a>
+
+No módulo passado listamos os posts utilizando template tags. Isso foi uma evolução em relação ao primeiro modo de listagem. Mostraremos neste capítulo como é possível melhorar a listagem e acrescentar uma imagem a cada post.
+
+Para inserirmos uma imagem para cada post, há imagem destacada, que o Wordpress disponibiliza no painel administrativo. Esta imagem destacada não vem configurada por padrão, adicionaremos o suporte a esta funcionalidade para depois conseguirmos trabalhar com as thumbnails.
+
+Para ativar as imagens destacadas, em nosso painel administrativo, criaremos um arquivo, que faz parte da estrutura padrão de temas Wordpress, chamado functions.php. Este arquivo é utilizado para fazermos a configuração do nosso tema e também para criarmos nossas próprias funções. Sempre que precisarmos criar uma função, para facilitar alguma tarefa de nosso site ou aplicação, é indicado que sejam criadas neste arquivo.
+
+Depois de criarmos este arquivo, teremos que adicionar o código abaixo:
+
+```php
+<?php
+add_theme_support('post-thumbnails');
+?>
+```
+
+Somente com esta linha, já podemos atualizar a tela de edição ou adição de posts, que já teremos esta opção na barra lateral. Vejam a imagem abaixo:
+
+![theme support thumb](https://github.com/josemalcher/SchoolOfNet-Desenvolvimento-de-temas-para-Wordpress/blob/master/wp-content/themes/son-Desenvolvimento-de-temas-para-Wordpress/img-git/wp_theme_support_thumb.png?raw=true)
+
+Não se assustem se a imagem destacada aparecer em outro local. Geralmente, ela aparece na última posição da barra lateral e nós a arrastamos para primeiro, para visualizarmos melhor. Caso queiram, podem alterar as posições dos elementos na barra lateral, arrastando e soltando.
+
+Também é possível configurar o tamanho da thumbnail padrão. Vejam o código:
+
+```php
+<?php
+add_theme_support('post-thumbnails');
+set_post_thumbnail_size(120,120);
+?>
+```
+
+Depois de termos concluido a configuração, adicionaremos uma imagem a um dos posts. Façam este procedimento no post teste e atualizem. Vocês podem criar um novo post, com thumbnail, caso não queiram atualizar.
+
+### Listando posts com imagens
+
+```php
+<?php get_header(); ?>
+<?php get_header('personalizado'); ?>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <?php
+                if(have_posts()):
+                    echo '<ul class="media-list">';
+                    while (have_posts()) : the_post();
+                        // Formando estutura da thumbnail com Bootstrap
+                        $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
+                            get_the_permalink() , get_the_post_thumbnail());
+
+                        // Formando estrutura de conteúdo com Boostrap
+                        $body = sprintf('<div class="media-body"><h3 class="media-heading"><a href="%s">%s</a></h3><p>%s</p></div>',
+                            get_the_permalink(), get_the_title(), get_the_content());
+
+                        // Imprimindo estrutura completa de imagem com conteúdo
+                        printf('<li>%s%s</li>', $image, $body);
+                        echo '<hr>';
+                    endwhile;
+                    echo "<ul>";
+                else:
+                    echo "<p>Ainda não temos post.</p>";
+                endif;
+                ?>
+            </div>
+            <div class="col-md-3">
+                <?php get_sidebar(); ?>
+            </div>
+            <div class="col-md-3">
+                <?php get_sidebar('personalizado'); ?>
+            </div>
+        </div>
+    </div>
+
+<?php get_footer('personalizado'); ?>
+<?php get_footer(); ?>
+```
+
+### Conclusão
+
+Observem que o Loop ainda é o mesmo, e as funções são iguais às anteriores. Há uma função nova neste módulo: get_the_post_thumbnail().
+
+Esta função nos retorna uma tag img completa, vinda de cada post relacionado. Portanto, se o post tiver uma imagem destacada, ele retornará esta imagem. Caso contrário, retornará vazia. Nos próximos capítulos melhoraremos esta função para que não retorne nada, quando não houver imagem. No momento, o objetivo é mostrar uma estrutura de conteúdo mais organizada e com thumbnails. Este objetivo foi atingido neste módulo.
+
+O restante do código é implementação de Bootstrap, que não abordaremos neste conteúdo. Caso não tenham conhecimento de Boostrap, vocês podem procurar este conteúdo na School Of Net, que encontrarão.
+
+Partimos do princípio que já possuam conhecimento sobre as funções sprintf e printf. Caso não saibam, também podem procurar sobre as funções, para que entendam o que foi feito no código acima.
 
 [Voltar ao Índice](#indice)
 

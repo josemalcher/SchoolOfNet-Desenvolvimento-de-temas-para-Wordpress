@@ -5,21 +5,26 @@
         <div class="row">
             <div class="col-md-6">
                 <?php
-                    if(have_posts()):
-                        echo "<ul>";
-                        while(have_posts()) : the_post();
-                            printf('<li><h3>Post: %s</h3>, title: %s, content: %s</li>',
-                                                  //$post->ID, $post->post_title, $post->post_content);
-                                                get_the_permalink(), get_the_title(), get_the_content());
-                        endwhile;
-                        echo "</ul>";
-                    else:
-                        echo "<p> Ainda Não há postagem</p>";
-                    endif;
+                if(have_posts()):
+                    echo '<ul class="media-list">';
+                    while (have_posts()) : the_post();
+                        // Formando estutura da thumbnail com Bootstrap
+                        $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
+                            get_the_permalink() , get_the_post_thumbnail());
+
+                        // Formando estrutura de conteúdo com Boostrap
+                        $body = sprintf('<div class="media-body"><h3 class="media-heading"><a href="%s">%s</a></h3><p>%s</p></div>',
+                            get_the_permalink(), get_the_title(), get_the_content());
+
+                        // Imprimindo estrutura completa de imagem com conteúdo
+                        printf('<li>%s%s</li>', $image, $body);
+                        echo '<hr>';
+                    endwhile;
+                    echo "<ul>";
+                else:
+                    echo "<p>Ainda não temos post.</p>";
+                endif;
                 ?>
-
-
-
             </div>
             <div class="col-md-3">
                 <?php get_sidebar(); ?>
@@ -27,7 +32,6 @@
             <div class="col-md-3">
                 <?php get_sidebar('personalizado'); ?>
             </div>
-
         </div>
     </div>
 
