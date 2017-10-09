@@ -968,60 +968,114 @@ Não esqueçam de inserirem o parâmetro para a função get_the_content, para a
 
 ---
 
-## <a name="parte15"> </a>
+## <a name="parte15">Mostrando informações do blog</a>
+
+Para melhorar o exemplo atual, modificaremos o header do projeto. Utilizaremos o navbar do Bootstrap, para preparar o header que receberá a listagem de páginas, formando um menu.
+
+Apresentaremos uma função que é capaz de pegar as informações do Blog que estão contidas no menu Configurações/Geral.
+
+### Função bloginfo
+
+```php
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog da School of Net</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <!-- Listagem de páginas -->
+            </ul>
+        </div>
+    </div>
+</nav>
+```
+
+Obeservem que utilizamos duas vezes a função bloginfo(), a única diferença foi o parâmetro utilizado.
+
+Função	| Parâmetro | Resultado
+----- | ------- | --------
+bloginfo |	name |	Imprime nome do site, configurado durante a instalação
+bloginfo |	url |	Imprime a url do site
+get_bloginfo |	name |	Return o nome do site
+
+Notem que não utilizamos a função get_bloginfo, mas nós citamos porque pode ser utilizada. A diferente entre get_blofinfo e bloginfo é que, a primeira apenas retorna o valor e a segunda imprime, direto, o valor. Utilizando a primeira, teremos o mesmo resultado, mas teríamos que utilizar o echo, do PHP, para imprimir.
+
+Vocês podem ver todos os parâmetros existentes para estas duas funções, no link:
+
+https://codex.wordpress.org/pt-br:Template_Tags/bloginfo
+
+Os parâmetros são os mesmos, para ambas as funções.
+
+
 
 [Voltar ao Índice](#indice)
 
 ---
 
-## <a name="parte16"> </a>
+## <a name="parte16">Mostransdo páginas no menu</a>
 
 [Voltar ao Índice](#indice)
 
 ---
 
-## <a name="parte17"> </a>
+## <a name="parte17">Submenu e páginas filhas</a>
 
 [Voltar ao Índice](#indice)
 
 ---
 
-## <a name="parte18"> </a>
+## <a name="parte18">Hierarquia de template</a>
 
 [Voltar ao Índice](#indice)
 
 ---
-## <a name="parte19"> </a>
+## <a name="parte19">Template para páginas estáticas</a>
 
 [Voltar ao Índice](#indice)
 
 ---
-## <a name="parte20"> </a>
+## <a name="parte20">Template para post</a>
 
 [Voltar ao Índice](#indice)
 
 ---
-## <a name="parte21"> </a>
+## <a name="parte21">Listando categorias  e tas</a>
 
 [Voltar ao Índice](#indice)
 
 ---
-## <a name="parte22"> </a>
+## <a name="parte22">Template para categorias e tags</a>
 
 [Voltar ao Índice](#indice)
 
 ---
-## <a name="parte23"> </a>
+## <a name="parte23">Criando busca para post</a>
 
 [Voltar ao Índice](#indice)
 
 ---
-## <a name="parte24"> </a>
+## <a name="parte24">Página 404</a>
 
 [Voltar ao Índice](#indice)
 
 ---
-## <a name="parte25"> </a>
+## <a name="parte25">Trabalhando com Assets</a>
 
 [Voltar ao Índice](#indice)
 
