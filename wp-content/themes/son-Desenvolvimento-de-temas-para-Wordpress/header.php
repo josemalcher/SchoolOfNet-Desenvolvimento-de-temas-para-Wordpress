@@ -20,7 +20,28 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <!-- Listagem de páginas -->
+                <?php
+                $pages = get_pages(['parent' => 0]);
+                foreach ($pages as $p):
+                    $childPages = get_pages(['child_of' => $p->ID]);
+                    if (!count($childPages)) {
+                        $link = get_page_link($p->ID);
+                        $title = $p->post_title;
+                        printf('<li><a href="%s">%s</a></li>', $link, $title);
+                    } else {
+                        echo "<li>";
+                        printf('<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">%s<span class="caret"></span></a>', $p->post_title);
+                        echo '<ul class="dropdown-menu">';
+                        foreach ($childPages as $child) {
+                            $link = get_page_link($child->ID);
+                            $title = $child->post_title;
+                            printf('<li><a href="%s">%s</a></li>', $link, $title);
+                        }
+                        echo "</li></ul>";
+                    }
+                endforeach;
+                ?>
             </ul>
         </div>
     </div>

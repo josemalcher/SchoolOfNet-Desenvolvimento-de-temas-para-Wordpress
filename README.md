@@ -1030,11 +1030,163 @@ Os parâmetros são os mesmos, para ambas as funções.
 
 ## <a name="parte16">Mostransdo páginas no menu</a>
 
+Finalmente, adicionaremos as páginas, criadas no painel administrativo, ao menu que criamos no módulo anterior.
+
+Para exemplificar melhor, criamos mais duas páginas, além da página de exemplo, que já vem com a instalação do Wordpress. Criamos: contato e Cursos.
+
+Utilizando a estrutura anterior, basta acrescentarmos as tags li dentro da tag ul, que deixamos vazia no exemplo anterior.
+
+Comentaremos a chamada do arquivo header-personalizado.php, para que possam brincar depois com os exemplos. Estamos comentando para que este exemplo não fique muito poluído.
+
+### Forma manual de criar o menu
+
+```html
+<ul class="nav navbar-nav">
+    <li><a href="?p=14">Cursos</a></li>
+    <li><a href="?p=16">Contato</a></li>
+</ul>
+```
+Da forma acima conseguimos criar o menu, mas teríamos que ficar verificando, no painel, qual o ID de cada página, para criarmos, manualmente. Isto não é nada funcional e muito menos dinâmico.
+
+O Wordpress disponibiliza uma forma para que fique dinâmica a criação, ou seja, assim que criar a página no painel, ela já aparece direto no site, assim que a página for recarregada. É o modo que ensinaremos a seguir.
+
+### Forma dinâmica de criar o menu
+
+```html
+<ul class="nav navbar-nav">
+    <?php
+        $pages = get_pages();
+        foreach ($pages as $p):
+            $link = get_page_link($p->ID);
+            $title = $p->post_title;
+            printf('<li><a href="%s">%s</a></li>',$link,$title);
+        endforeach;
+    ?>
+</ul>
+```
+
+Desta forma, já temos as páginas de uma forma dinâmica. Notem que, primeiro pegamos todas as páginas existentes com a função get_pages, em seguida, fazemos um foreach para percorrer todas as páginas e listá-las com os links. Os links são resgatados pela função get_page_link, onde passamos o ID da página.
+
+Existe uma forma de ordenar estas páginas. Basta passar o array de configuração para a função get_pages. Vejam as formas de ordenação possíveis, de acordo com a documentação:
+
+```php
+<?php
+// Ordenando por ordem alfabetica
+$pages = get_pages(array(
+    'sort\_column' => 'post_title',
+    'sort_order' => 'asc' // ou desc
+));
+
+// Ordenando por ordem de menu
+$pages = get_pages(array(
+    'sort\_column' => 'menu_order',
+    'sort_order' => 'asc' // ou desc
+));
+?>
+```
+
+Lembrando que, para utilizar a ordenação por ordem de menu, vocês deverão configurar a ordem no painel administrativo, de acordo com a imagem abaixo:
+
+![Ordenação de prioridade de páginas](https://github.com/josemalcher/SchoolOfNet-Desenvolvimento-de-temas-para-Wordpress/blob/master/wp-content/themes/son-Desenvolvimento-de-temas-para-Wordpress/img-git/wp_menu_order_pages.png?raw=true)
+
+Pesquisando no codex, a função get_pages, vocês podem verificar os parâmetros existentes. Nós deixaremos a função sem parâmetro, para pegar o modelo padrão, que será por ordem alfabética.
+
+Para partirmos para outro próximo conteúdo, pedimos que criem uma página chamada PHP, no painel administrativo, para testarem se a mesma aparecerá no menu. Caso apareça, está tudo correto e podemos seguir para o próximo módulo.
+
 [Voltar ao Índice](#indice)
 
 ---
 
 ## <a name="parte17">Submenu e páginas filhas</a>
+
+Fizemos o desenvolvimento do menu dinâmico, no módulo passado. Vale lembrar a diferença que existe entre páginas e posts. Apesar do Wordpress considerar tudo como sendo post, ele sabe diferenciar os elementos.
+
+Desta forma, existe a possibilidade de criarmos páginas mães e páginas filhas. Quando temos conteúdos relacionados, podemos criar uma página principal e outras relacionadas.
+
+Para exemplificar, configuraremos a página PHP, criada no módulo anterior, como sendo filha da página Cursos. Criaremos mais uma página, chamada Java, e faremos o mesmo processo.
+
+![Página Filha](https://github.com/josemalcher/SchoolOfNet-Desenvolvimento-de-temas-para-Wordpress/blob/master/wp-content/themes/son-Desenvolvimento-de-temas-para-Wordpress/img-git/wp_page_child.png?raw=true)
+
+Conseguimos ter acesso visual às páginas filhas, ao clicarmos no menu Páginas, no painel administrativo. Vejam a imagem abaixo:
+
+![Lista de Páginas Filhas](https://github.com/josemalcher/SchoolOfNet-Desenvolvimento-de-temas-para-Wordpress/blob/master/wp-content/themes/son-Desenvolvimento-de-temas-para-Wordpress/img-git/wp_page_child_list.png?raw=true)
+
+### Ocultando páginas filhas
+
+Observem o browser e verão que todas as páginas estarão aparecendo. Isso ocorre porque, na estrutura que fizemos, não diferenciamos páginas mães de páginas filhas. Para ocultar as páginas filhas, basta acrescentarmos um parâmetro na função get_pages.
+
+```php
+    $pages = get_pages(['parent' => 0]);
+```
+
+Desta forma, estamos informando que queremos uma página que não tenha "parente", ou seja, não tenha nenhuma relação com qualquer página, serão páginas independentes.
+
+Assim, já eliminamos estas páginas do menu. Agora, faremos aparecer no local correto. Vejam abaixo:
+
+```html
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog da School of Net</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <?php
+                $pages = get_pages(['parent' => 0]);
+                foreach ($pages as $p):
+                    $childPages = get_pages(['child_of' => $p->ID]);
+                    if (!count($childPages)) {
+                        $link = get_page_link($p->ID);
+                        $title = $p->post_title;
+                        printf('<li><a href="%s">%s</a></li>', $link, $title);
+                    } else {
+                        echo "<li>";
+                        printf('<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">%s<span class="caret"></span></a>', $p->post_title);
+                        echo '<ul class="dropdown-menu">';
+                        foreach ($childPages as $child) {
+                            $link = get_page_link($child->ID);
+                            $title = $child->post_title;
+                            printf('<li><a href="%s">%s</a></li>', $link, $title);
+                        }
+                        echo "</li></ul>";
+                    }
+                endforeach;
+                ?>
+            </ul>
+        </div>
+    </div>
+</nav>
+```
+
+Primeiro pegamos as páginas filhas e fazemos um teste. Se não tiver filho, nós mantemos do jeito que estava, anteriormente. Caso tenha, nós caímos na estrutura else.
+
+No else, nós inserimos a estrutura de html e css para menus dropdows, do próprio Bootstrap, e fazemos outro foreach para percorrer todos os filhos de cada página principal.
+
+Assim, teremos o menu funcionando corretamente com suas páginas filhas sendo listadas e estilizadas.
+
+### Configurando link permanente
+Caso não gostem do formato atual que as urls estão sendo mostradas, temos a possibilidade de alterar este padrão, no painel administrativo. Acessem Configurações/Links permanentes. Dentre todas as possibilidades, a mais visual seria Nome do post, mas vocês podem escolher a que acharem melhor.
+
+Após a alteração, devem obter a seguinte url: http://localhost:8000/index.php/contato/
+
+Não se preocupem com o index.php no meio da url, isso acontece porque estamos utilizando o servidor embutido do PHP, quando subirem o site para produção, não existirá mais.
+
 
 [Voltar ao Índice](#indice)
 

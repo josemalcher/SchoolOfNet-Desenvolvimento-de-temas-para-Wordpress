@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<?php get_header('personalizado'); ?>
+<?php // get_header('personalizado'); ?>
 
     <div class="container">
         <div class="row">
