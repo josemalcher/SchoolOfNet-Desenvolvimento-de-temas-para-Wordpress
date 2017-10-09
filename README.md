@@ -664,7 +664,75 @@ Gravem bem este loop e tentem entendê-lo, porque ele realmente é muito utiliza
 
 ---
 
-## <a name="parte11"> </a>
+## <a name="parte11">Template tags para post</a>
+
+No módulo anterior falamos do The Loop e mostramos os dados vindos do banco, utilizando a variável global $post. Agora, mostraremos que não precisamos utilizar esta variável para resgatar os dados, pois existem as template tags que fazem isso para nós.
+
+Mostraremos o mesmo loop, do módulo anterior, porém iremos inserir os dados com template tags.
+
+```php
+<?php get_header(); ?>
+<?php get_header('personalizado'); ?>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <?php
+                    if(have_posts()):
+                        echo "<ul>";
+                        while(have_posts()) : the_post();
+                            printf('<li><h3>Post: %s</h3>, title: %s, content: %s</li>',
+                                                  //$post->ID, $post->post_title, $post->post_content);
+                                                get_the_permalink(), get_the_title(), get_the_content());
+                        endwhile;
+                        echo "</ul>";
+                    else:
+                        echo "<p> Ainda Não há postagem</p>";
+                    endif;
+                ?>
+
+
+
+            </div>
+            <div class="col-md-3">
+                <?php get_sidebar(); ?>
+            </div>
+            <div class="col-md-3">
+                <?php get_sidebar('personalizado'); ?>
+            </div>
+
+        </div>
+    </div>
+
+<?php get_footer('personalizado'); ?>
+<?php get_footer(); ?>
+```
+
+Vejam a substituição:
+
+Variável global |	Template Tag Post
+:---------------: | :-------------------:
+$post->ID  |	get_the_ID()
+$post->post_title |	get_the_title()
+$post->post_content |	get_the_content()
+
+
+Depois de fazermos estas alterações podemos ir até o browser para ver o resultado. Vocês verão que não mudou muito. Os conteúdos continuam vindo da mesma forma, porque os template tags fazem o acesso à variável global $post, para nós.
+
+A grande novidade é que estamos utilizando template tag para gerar o link, automaticamente. Esta função gera o link do post para a página própria dele. Se clicarmos em algum título seremos redirecionados para a página do post. Lembrando que, como não criamos nenhuma página específica para mostrar este conteúdo, o Wordpress mostrará o conteúdo na própria index, de acordo com sua estrutura e hierarquia.
+
+###Conclusão
+
+Neste módulo você precisa observar duas coisas em especial:
+
+1- A utilização de template tags para mostrar os conteúdo dos posts, ao invés de utilizar a variável global
+
+2- Notem que estamos utilizando apenas o arquivo index.php para listar todos os posts e também para mostrar o conteúdo de um só post, quando clicamos no link. O mais interessante que devem notar é que, se é um único arquivo, também é um único código. Sendo um único código, temos um único loop. Falamos desta lógica para que percebam que a função have_posts() interpreta o contexto da sua página atual para trazer a coleção de dados. Como no primeiro momento temos a listagem de posts, ela traz todos os posts. Quando clicamos em um post, em específico, ela interpreta que se trata de uma página particular do post e traz os dados, apenas, do post em questão.
+
+O Wordpress se destaca, entre outros gerenciadores de conteúdo, pela facilidade e reaproveitamento de código. Com um mesmo arquivo conseguimos listar todos os posts e listar o conteúdo de cada um deles. Não estamos dizendo que isso seja correto, somente que isso é possível.
+
+Nos próximos conteúdos vocês entenderão melhor como criar um arquivo específico para exibição do conteúdo particular de cada post, sem utilizar o index.php.
+
 
 [Voltar ao Índice](#indice)
 

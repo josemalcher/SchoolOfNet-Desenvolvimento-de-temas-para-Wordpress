@@ -8,7 +8,9 @@
                     if(have_posts()):
                         echo "<ul>";
                         while(have_posts()) : the_post();
-                            printf('<li>Post: %s, title: %s, content: %s</li>',$post->ID, $post->post_title, $post->post_content);
+                            printf('<li><h3>Post: %s</h3>, title: %s, content: %s</li>',
+                                                  //$post->ID, $post->post_title, $post->post_content);
+                                                get_the_permalink(), get_the_title(), get_the_content());
                         endwhile;
                         echo "</ul>";
                     else:
