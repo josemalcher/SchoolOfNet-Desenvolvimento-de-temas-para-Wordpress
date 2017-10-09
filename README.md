@@ -829,7 +829,90 @@ Partimos do princípio que já possuam conhecimento sobre as funções sprintf e
 
 ---
 
-## <a name="parte13"> </a>
+## <a name="parte13">Leia mais</a>
+
+Reduziremos o tamanho do texto, de acordo com o número de palavras que quisermos definir. Desta forma, conseguiremos manter um layout padronizado e fazer com que o usuário clique em um botão leia mais, caso ele queira continuar lendo o conteúdo do post. Isso é muito comum em páginas de listagem de posts, porque não faz sentido listar todos os posts, completos. Basta colocar um trecho do conteúdo, para que o usuário saiba do que se trata, e depois adicionamos um botão para acessar o conteúdo completo.
+
+Antes de prosseguirmos com o conteúdo, adicionaremos um título ao nosso exemplo, para que a listagem dos posts possa ficar mais visual e organizada. Vejam trecho do código abaixo:
+
+Adicionem, antes da div class row, um título, para que saibam onde começa listagem dos posts.
+
+```html
+<div class="container">
+    <h3>Posts Recentes</h3>
+    <div class="row">
+        <div class="col-md-6">
+```
+
+Agora que já adicionamos o título, iremos ao que interessa neste módulo, que é a exibição de parte do conteúdo. Não queremos apresentar o texto completo do post. Suponham um texto muito grande sendo mostrado na íntegra. Não é o que queremos. Vejam como é simples fazer esta edição com o Wordpress.
+
+No painel administrativo edite algum post já criado. Dentro da tela de edição, encontrarão o botão abaixo:
+
+![Leia mais no post wordpress](https://github.com/josemalcher/SchoolOfNet-Desenvolvimento-de-temas-para-Wordpress/blob/master/wp-content/themes/son-Desenvolvimento-de-temas-para-Wordpress/img-git/wp_more_link.png?raw=true)
+
+```php
+<?php get_header(); ?>
+<?php get_header('personalizado'); ?>
+
+    <div class="container">
+        <div class="row">
+            <h2>POST RECENTES</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php
+                    if (have_posts()):
+                        echo '<ul class="media-list">';
+                        while (have_posts()) : the_post();
+                            // Formando estutura da thumbnail com Bootstrap
+                            $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
+                                get_the_permalink(), get_the_post_thumbnail());
+
+                            // Formando estrutura de conteúdo com Boostrap
+                            $body = sprintf('<div class="media-body"><h3 class="media-heading"><a href="%s">%s</a></h3><p>%s</p></div>',
+                                get_the_permalink(), get_the_title(), get_the_content('CONTINUE LENDO...'));
+
+                            // Imprimindo estrutura completa de imagem com conteúdo
+                            printf('<li>%s%s</li>', $image, $body);
+                            echo '<hr>';
+                        endwhile;
+                        echo "<ul>";
+                    else:
+                        echo "<p>Ainda não temos post.</p>";
+                    endif;
+                    ?>
+                </div>
+                <div class="col-md-3">
+                    <?php get_sidebar(); ?>
+                </div>
+                <div class="col-md-3">
+                    <?php get_sidebar('personalizado'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php get_footer('personalizado'); ?>
+<?php get_footer(); ?>
+```
+
+Notem que, depois que clicamos no botão, o Wordpress já insere uma separação no texto do post. A função get_the_content(), que resgata o conteúdo do post, verifica se existe este recurso adicionado no painel administrativo. Se existir, ela oculta o restante do post e adiciona um link com a classe more-link.
+
+O texto padrão que o Wordpress adiciona no link é (mais...). Vocês podem configurar o texto que quiserem, basta inserirem um parâmetro para a função, como no exemplo abaixo:
+
+```php
+get_the_content('Continue lendo...')
+```
+
+O primeiro parâmetro que a função aceita é exatamente o texto de leia mais. Desta maneira, o Wordpress passa a imprimir o que passamos como parâmetro e não mais o padrão.
+
+Vocês podem configurar o leia mais, no editor, em qualquer local do texto que quiserem. Basta colocar o cursor no local exato onde querem que esteja o botão de leia mais. Cada post terá uma posição, de acordo com o que configurarmos.
+
+Façam o teste em todos os posts, inserindo, em cada post, um local diferente.
+
+Assim, vocês fixarão este recurso do Wordpress.
+
+Não esqueçam de inserirem o parâmetro para a função get_the_content, para alterarem o valor padrão do link do botão.
+
 
 [Voltar ao Índice](#indice)
 
