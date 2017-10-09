@@ -1194,6 +1194,32 @@ Não se preocupem com o index.php no meio da url, isso acontece porque estamos u
 
 ## <a name="parte18">Hierarquia de template</a>
 
+Um dos assuntos mais importantes, quando falamos em criação de temas, é a hierarquia de templates.
+
+O Wordpress avaliará toda estrutura e hierarquia de templates, antes de montar a página. Leiam, com atenção, a documentação no link abaixo:
+
+https://developer.wordpress.org/themes/basics/template-hierarchy/
+
+Resumiremos o conceito básico, neste módulo.
+
+Vamos supor que estamos acessando um site Wordpress. Logo que colocamos a url no browser e acessamos, ele já faz a primeira verificação de hierarquia. Ele mostrará a home do site, de acordo com a nossa configuração. Na maioria das vezes, ele utilizará o arquivo index.php, para mostrar esta home.
+
+Existe um diagrama, que foi criado pelos desenvolvedores do framework, que podemos consultar o fluxo. Devemos analisar da esquerda para direita, qual a direção que a hierarquia toma e as considerações que o Wordpress faz ao escolher o template a ser mostrado.
+
+Vocês devem analisar a hierarquia completa no link abaixo:
+
+https://wphierarchy.com
+
+Como falamos, é um assunto muito importante e neste link existe a hierarquia completa. Mostraremos o nosso caso, em específico, na imagem abaixo, para que possam entender:
+
+![Hierarquia de template](https://github.com/josemalcher/SchoolOfNet-Desenvolvimento-de-temas-para-Wordpress/blob/master/wp-content/themes/son-Desenvolvimento-de-temas-para-Wordpress/img-git/wp_hierarchy_static_page.png?raw=true)
+
+Na imagem acima, mostramos todo o caminho que foi percorrido até chegar no index.php e mostrar nossas páginas estáticas. Caso tivéssemos criado algum template anterior, o Wordpress iria parar e executar. Como ele não encontrou nenhum caso, ele continua até chegar no index.php.
+
+Por este motivo falamos, bem no início do conteúdo, que o index.php é o template mais importante do Wordpress e não é a toa que ele é obrigatório em seu tema. Porque, qualquer falta de arquivo ou erro encontrado, o index.php é acionado. Basta analisar a hierarquia, no site acima, e verão que todos os caminhos levam ao index, como fechamento de processo.
+
+No próximo módulo mostraremos como criar um template para página estática e vocês verão que o Wordpress não chegará mais no index, porque ele encontrará este template no meio do caminho e o mostrará.
+
 [Voltar ao Índice](#indice)
 
 ---
