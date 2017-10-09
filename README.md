@@ -569,7 +569,96 @@ Pesquisem mais tags do Codex, para se habituarem com as funções e os modos de 
 
 ---
 
-## <a name="parte10"> </a>
+## <a name="parte10">The loop</a>
+
+Já vimos boa parte da estrutura padrão de uma página, apresentando na tela: header, footer, content e sidebar. Ainda não mostramos nada relevante do wordpress. Nada que venha do banco de dados.
+
+Falaremos especificamente do content, neste módulo. O content é o conteúdo principal da nossa estrutura de template, onde listaremos uma coleção de informações vindas do banco de dados. Este conteúdo também é conhecido como The Loop.
+
+Podemos criar uma área de conteúdo, utilizando o loop do Wordpress. Mesmo que seja para mostrar apenas uma informação. Tudo dependerá do projeto.
+
+### Mostrando posts recentes
+
+A primeira verificação que devemos fazer é checar como o painel administrativo está configurando a página inicial do nosso site. Acessem Configurações no menu do painel administrativo e depois acessem Leitura.
+
+Neste local temos duas configurações para página inicial:
+
+* SEUS POSTS RECENTES
+* UMA PÁGINA ESTÁTICA ( SELECIONAR ABAIXO )
+
+Como vimos nas opções acima, temos como configurar uma página de posts recentes ou uma página estática, como conteúdo inicial. Caso optem por uma página estática, vocês deverão marcar qual será esta página e também qual será a página dos posts.
+
+Em nosso exemplo utilizaremos a primeira opção. Vejam como ficará o loop no arquivo index, depois de configurar esta opção:
+
+```php
+<?php get_header(); ?>
+<?php get_header('personalizado'); ?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <?php
+            if(have_posts()):
+                echo "<ul>";
+                while (have_posts()) : the_post();
+                    printf('<li>Post ID: %s Post Title: %s Conteúdo: %s</li>',
+                    $post->ID, $post->post_title, $post->post_content);
+                    echo '<hr>';
+                endwhile;
+                echo "<ul>";
+            else:
+                echo "<p>Ainda não temos post.</p>";
+            endif;
+            ?>
+        </div>
+        <div class="col-md-3">
+            <?php get_sidebar(); ?>
+        </div>
+        <div class="col-md-3">
+            <?php get_sidebar('personalizado'); ?>
+        </div>
+    </div>
+</div>
+
+<?php get_footer('personalizado'); ?>
+<?php get_footer(); ?>
+```
+Observem que estamos fazendo uma lógica condicional utilizando if. A lógica utiliza a função have_posts(). Esta função é capaz de verificar se existem posts para serem mostrados ou não. Esta função faz uma busca no banco de dados e analisa a url, para ver se existem parâmetros ou se existe algum tipo de ordenação sendo passada. Na verdade, ela analisa todo contexto, antes de fazer a consulta ao bando de dados.
+
+A função have_posts não irá ver, somente, se tem posts ou não, como seu próprio nome diz. Ela fará toda uma análise da página atual em que se encontra e depois fará uma consulta ao banco para trazer esta informação.
+
+Depois de testar se existem posts, partimos para um laço de repetição while que executará uma ação enquanto existirem posts. Isso quer dizer que passaremos por toda coleção trazida pela função anterior. Mas isso não basta, precisamos passar de post em post para conseguir imprimir os posts atuais de cada iteração. Utilizamos a função the_post(), que é responsável por sempre pegar o próximo post e armazenar em uma variável global chamada $post.
+
+Se inserirmos um var_dump($post), dentro do while, poderemos ver que, a cada iteração nós falamos de uma post diferente. Se quisermos ver, somente, os IDs dos posts, podemos acessar da seguinte maneira: var_dump($post->ID). Desta mesma maneira podemos acessar outras informações desta variável global.
+
+Como a variável é global vocês podem acessar em qualquer arquivo da aplicação. O Wordpress utiliza muito este conceito de variável global. global $post.
+
+Apesar de termos a possibilidade de utilizar o var_dump para debugar dados, nós utilizamos o acesso através da variável global $post, associado a um printf, como vocês puderam ver no código acima.
+
+Acessamos os seguintes itens do post:
+
+* $POST->ID
+* $POST->POST_TITLE
+* $POST->POST_CONTENT
+
+Acessando assim o ID, o título e o conteúdo de cada post, a cada iteração.
+
+Este loop será utilizado em muitas páginas do Wordpress, porque ele é um loop padrão. Podemos, ou não, acrescentar alguns parâmetros, mas a base será muito parecida.
+
+### Estrutura Loop
+
+```php
+<?php
+if(have_posts()):
+    while (have_posts()) : the_post();
+        // Conteúdo
+    endwhile;
+else:
+    // Mensagem se não existir post.
+endif;
+?>
+```
+Gravem bem este loop e tentem entendê-lo, porque ele realmente é muito utilizado e muito importante durante o desenvolvimento de temas.
 
 [Voltar ao Índice](#indice)
 
