@@ -11,8 +11,11 @@
                         echo '<ul class="media-list">';
                         while (have_posts()) : the_post();
                             // Formando estutura da thumbnail com Bootstrap
-                            $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
-                                get_the_permalink(), get_the_post_thumbnail());
+                            $image = '';
+                            if (has_post_thumbnail()):
+                                $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
+                                    get_the_permalink(), get_the_post_thumbnail());
+                            endif;
 
                             // Formando estrutura de conteúdo com Boostrap
                             $body = sprintf('<div class="media-body"><h3 class="media-heading"><a href="%s">%s</a></h3><p>%s</p></div>',

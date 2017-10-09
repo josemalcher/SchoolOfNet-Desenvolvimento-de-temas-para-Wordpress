@@ -828,8 +828,55 @@ Partimos do princípio que já possuam conhecimento sobre as funções sprintf e
 [Voltar ao Índice](#indice)
 
 ---
+## <a name="parte13">Post sem thumbnail</a>
 
-## <a name="parte13">Leia mais</a>
+Como não é obrigatório o post ter uma imagem destacada, melhoraremos nosso exemplo, inserindo uma condição para exibição ou não.
+
+No exemplo passado, como queríamos apenas mostrar uma thumbnail, decidimos não tratar a possibilidade de não existir uma imagem. Agora, acertaremos este detalhe.
+
+Vejam a alteração no arquivo index.php:
+
+```php
+<?php
+// Código antigo
+$image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
+                        get_the_permalink() , get_the_post_thumbnail());
+
+// Código corrigido
+$image = '';
+if(has_post_thumbnail()):
+    $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
+    get_the_permalink() , get_the_post_thumbnail());
+endif;
+?>
+```
+
+Observem que, primeiro atribuímos um conteúdo vazio para a variável $image, desta forma, caso não exista nenhuma imagem destacada, não será inserido código algum.
+
+Para descobrirmos se existe, ou não, a imagem destacada, utilizamos a função abaixo:
+
+has_post_thumbnail()
+
+Esta função, nativa do Wordpress, retorna true ou false para nossa condicional. Assim, conseguimos exibir a imagem se existir e não inserir nenhum código html, caso não exista.
+
+Agora nosso exemplo está completo.
+
+Façam estas alterações no projeto local e atualizem o browser. Visualmente, não haverá alteração, praticamente de nada. Mas se inspecionarmos o elemento, veremos que não existe mais elemento. Fato que ocorria, anteriormente.
+
+### Conclusão
+
+Agora que corrigimos o exemplo, para que fique mais coeso, daremos continuidade aos conteúdos.
+
+Notem que o texto ainda continua muito grande e isso não é apresentável ao usuário. Melhoraremos isso, também.
+
+No próximo módulo mostraremos como podemos pegar apenas um pedaço do texto e inserir um botão de Leia mais, assim como os sites e blogs costumam fazer, para que a aparência fique melhor e mais organizada. Desta forma podemos colocar qualquer tamanho de texto, que o layout não será quebrado.
+
+
+[Voltar ao Índice](#indice)
+
+---
+
+## <a name="parte14">Leia mais</a>
 
 Reduziremos o tamanho do texto, de acordo com o número de palavras que quisermos definir. Desta forma, conseguiremos manter um layout padronizado e fazer com que o usuário clique em um botão leia mais, caso ele queira continuar lendo o conteúdo do post. Isso é muito comum em páginas de listagem de posts, porque não faz sentido listar todos os posts, completos. Basta colocar um trecho do conteúdo, para que o usuário saiba do que se trata, e depois adicionamos um botão para acessar o conteúdo completo.
 
@@ -864,8 +911,11 @@ No painel administrativo edite algum post já criado. Dentro da tela de edição
                         echo '<ul class="media-list">';
                         while (have_posts()) : the_post();
                             // Formando estutura da thumbnail com Bootstrap
-                            $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
-                                get_the_permalink(), get_the_post_thumbnail());
+                            $image = '';
+                            if (has_post_thumbnail()):
+                                $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
+                                    get_the_permalink(), get_the_post_thumbnail());
+                            endif;
 
                             // Formando estrutura de conteúdo com Boostrap
                             $body = sprintf('<div class="media-body"><h3 class="media-heading"><a href="%s">%s</a></h3><p>%s</p></div>',
@@ -913,12 +963,6 @@ Assim, vocês fixarão este recurso do Wordpress.
 
 Não esqueçam de inserirem o parâmetro para a função get_the_content, para alterarem o valor padrão do link do botão.
 
-
-[Voltar ao Índice](#indice)
-
----
-
-## <a name="parte14"> </a>
 
 [Voltar ao Índice](#indice)
 
