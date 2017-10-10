@@ -1346,6 +1346,49 @@ Agora, vocês podem personalizar seus templates para posts.
 ---
 ## <a name="parte21">Listando categorias  e tas</a>
 
+Quando trabalhamos com Wordpress, principalmente em posts, trabalhamos com categorias e tags. Podemos ligar um post a várias categorias e atribuir várias tags.
+
+Veremos como trabalhar com estas categorias e tags em nosso tema.
+
+### Listando categorias e tags na sidebar.php
+
+```php
+<h3>Categorias</h3>
+<ul class="list-group">
+    <?php
+    $categories = get_categories();
+    foreach ($categories as $category):
+        printf('<li class="list-group-item"><a href="%s" title="%s">%s</a></li>',
+            get_category_link($category->term_id),
+            sprintf('Ver posts de %s', $category->name),
+            $category->name);
+    endforeach;
+    ?>
+</ul>
+
+<h3>Tags</h3>
+<ul class="list-group">
+    <?php
+    $tags = get_tags();
+    foreach ($tags as $tag):
+        printf('<li class="list-group-item"><a href="%s" title="%s">%s</a></li>',
+            get_tag_link($tag->term_id),
+            sprintf('Ver posts sobre %s', $tag->name),
+            $tag->name);
+    endforeach;
+    ?>
+</ul>
+```
+
+Observem que, assim como os menus, nós pegamos todas as categorias e tags e fizemos um foreach para listar, utilizando o Bootstrap para estilizar.
+
+Assim, as categorias e tags são listadas, dinamicamente. Lembrando que precisa existir algum post atrelado a categoria ou tag, para que ela apareça. Somente criá-la, ela não aparecerá.
+
+Desta forma, o Wordpress já está filtrando os posts por categoria. Como não criamos nenhum template, específico, para categoria nem para tag, o framework está utilizando a index.php para a listagem.
+
+No próximo módulo nós criaremos estes templates, para que não fiquem mais por conta do template index.php fazer esta listagem e filtragem.
+
+
 [Voltar ao Índice](#indice)
 
 ---
