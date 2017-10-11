@@ -1616,6 +1616,141 @@ Lembrem-se, sempre, de criarem o arquivo 404.php. Façam sua estilização para 
 ---
 ## <a name="parte25">Trabalhando com Assets</a>
 
+Ensinaremos como importar qualquer tipo de assets para utilizarem no tema. Pode ser uma arquivo style ou um javascript, por exemplo.
+
+Primeiro, temos a forma manual, que, nem sempre é a mais indicada, mas dependendo do projeto, funciona. Aprenderemos uma função que é responsável por pegar o caminho relativo, para que consigam fazer a inclusão destes arquivos.
+
+Criamos uma pasta assets, na pasta raiz do projeto, onde teremos os arquivos do Bootstrap. No início do conteúdo, nós chamamos os arquivos de forma online, via CDN e falamos que no final iríamos ensinar a fazer de forma local. Portanto, baixamos os arquivos do Bootstrap e colocamos na pasta assets.
+
+### Chamando assets manual no header.php
+
+```php
+<?php
+<link rel="stylesheet" href="<?php printf('%s/assets/css/bootstrap.min.css',get_template_directory_uri()); ?>">
+?>
+```
+
+Podemos substituir a forma online, que está atualmente, por este código acima. Desta forma, estamos puxando o css do arquivo local e não mais do conteúdo CDN.
+
+A função get_template_directory_uri() retorna o seguinte valor http://localhost:8000/wp-content/themes/sonblog, que é exatamente o que precisamos para chegar até a pasta do tema que estamos. Vale lembrar que ele pega o endereço relativo do tema que estiver ativo, sempre.
+
+Utilizamos o printf para imprimir o caminho relativo completo, adicionando o que faltava para chegar até o arquivo que queríamos. Faremos o mesmo com o javascript. Vejam, abaixo:
+
+```php
+<?php
+<script src="<?php printf('%s/assets/js/bootstrap.min.js',get_template_directory_uri()); ?>"></script>
+?>
+```
+
+Desta forma, temos o mesmo efeito anterior, e todas as funcionalidades do Bootstrap, corretamente, carregadas de forma local. Mas, como dissemos, não é a forma mais recomendada, utilizando Wordpress.
+
+Existe uma forma em que chamamos direto no arquivo functions.php utilizando função, onde podemos chamar todos os assets na ordem que quisermos. Podemos escolher se chamaremos no header ou no footer.
+
+### Chamando assets no arquivo functions.php
+
+```php
+<?php
+function my_wp_scripts(){
+    wp_enqueue_style('bootstrap', sprintf('%s/assets/css/bootstrap.min.css',get_template_directory_uri()));
+    wp_enqueue_style('style',get_stylesheet_uri());
+    wp_enqueue_script('bootstrap', sprintf('%s/assets/js/bootstrap.min.js',get_template_directory_uri()),['jquery'],null,true);
+}
+
+add_action('wp_enqueue_scripts' , 'my_wp_scripts');
+?>
+```
+Esta é a forma mais indicada para chamar arquivos de css, javascript e, até mesmo, imagens, caso necessite.
+
+Resumindo, criamos uma função e a chamamos no momento em que o Wordpress chamar todos os scripts. Nós adicionamos uma ação para conseguir este efeito.
+
+add_action('wp_enqueue_scripts' , 'my_wp_scripts');
+
+O primeiro parâmetro é a escolha do momento do carregamento do Wordpress em que iremos incluir os nossos arquivos e, o segundo, é o nome da função que criamos, com a fila de arquivos a serem incluídos.
+
+Dentro da nossa função trabalhamos com dois tipos de funções: wp_enqueue_style e wp_enqueue_scripts. Como o próprio nome diz, uma é para carregarmos estilos e a outra, para carregarmos scripts.
+
+Estas duas funções possuem mais parâmetros, para saberem mais, vejam os links abaixo:
+
+https://developer.wordpress.org/reference/functions/wp_enqueue_style/
+
+https://developer.wordpress.org/reference/functions/wp_enqueue_script/
+
+Notem que, na função de scripts, utilizamos mais parâmetros. Vejam o que são cada um deles:
+
+1- Nome de registro, que deve ser único entre os scripts, podendo se repetir para os styles.  
+2- Caminho relativo do arquivo  
+3- Dependências  
+4- Versão  
+5- True ou false. True significa que é para carregar no footer e false o contrário. O padrão, caso não informe, será false.  
+
+Desta forma, estamos carregando o script do Bootstrap no footer, como deveria ser.
+
+### wp_head() e wp_footer()
+
+Estas duas funções são essenciais para que o tema seja completo, porque ambas fazem o carregamento de funções, estilos e scripts que fazem com que o tema tenha mais poder. Sem estas duas funções, não temos acesso à barra de navegação do painel, que será criada após a inclusão das mesmas, e nem podemos chamar os scripts e estilos da forma que chamamos no arquivo functions.php.
+
+### Onde chamar a função wp_head()?
+
+O local mais indicado para chamar a função wp_head é antes do fechamento da tag head do html. Podemos então abrir o arquivo header.php e adicionar, conforme o código, abaixo:
+
+```php
+<head>
+    <meta charset="UTF-8">
+    <title>Blog da School of Net</title>
+    <?php wp_head(); ?>
+</head>
+```
+### Onde chamar a função wp_footer()?
+
+O local mais indicado para chamar a função wp_footer é antes do fechamento da tag body do html. Podemos abrir o arquivo footer.php e adicionar, confore o código, abaixo:
+
+```php
+<footer>
+    <div class="container">
+        <div class="row text-center">
+            <p>School of Net <?php echo date('Y')?></p>
+        </div>
+    </div>
+</footer>
+
+<?php wp_footer(); ?>
+
+</body>
+</html>
+```
+
+### Estilizando o footer
+
+Notem que alteramos o footer para conclusão do nosso projeto. Inserimos a tag footer e centralizamos o texto. Para ficar melhor, adicionamos algumas formatações ao nosso arquivo style.css, que até então não tínhamos utilizado. Vejam o código, abaixo:
+
+```css
+footer {
+    height: 60px;
+    background-color: black;
+    color: white;
+}
+
+footer .container{
+    padding: 20px;
+}
+```
+
+O código acima, foi adicionado apenas por estética, para não finalizarmos com o footer sem nenhuma estilização, pois todos os outros blocos já estavam estilizados com Bootstrap.
+
+### Conclusão
+
+Este foi nosso conteúdo de Desenvolvimento de temas para Wordpress, esperamos que vocês tenham aprendido os conceitos básicos da criação de uma tema Wordpress.
+
+Poderíamos resumir este assunto, falando que o mais importante seria vocês entenderem os arquivos modelos, que fomos criando no decorrer dos módulos, referentes a hierarquia do framework. Saber qual o processo do Wordpress até renderizar uma página, porque o restante é somente conhecimento de PHP, HTML e CSS.
+
+Vocês já podem editar os temas padrões do Wordpress, caso queiram, pois já possuem o conhecimento básico de como os mesmos são criados.
+
+A School Of Net quer abranger todo e qualquer conteúdo de tecnologia que seja relevante. Podem esperar por mais conteúdos como este.
+
+Esperamos que vocês tenham gostado do conteúdo. Usem todo conhecimento para criarem sites como quiserem.
+
+Obrigado por terem chegado até o final deste conteúdo. Não parem por aqui, continuem procurando conteúdos na School Of Net, para estarem por dentro das novas tecnologias.
+
 [Voltar ao Índice](#indice)
 
 ---
