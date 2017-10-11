@@ -1394,6 +1394,96 @@ No próximo módulo nós criaremos estes templates, para que não fiquem mais po
 ---
 ## <a name="parte22">Template para categorias e tags</a>
 
+No módulo passado nós conseguimos listar categorias e tags, utilizando o template sidebar.
+
+Não tivemos muitas dificuldades, porque utilizamos as template tags do próprio Wordpress e depois fizemos uma simples listagem. Ainda não estamos trabalhando do modo correto, porque toda vez que clicarmos em uma categoria, como não existe nenhum template, específico, para listagem de categorias ou tags, o Wordpress ainda estará utilizando o template index.php.
+
+Criaremos os templates para que o Wordpress trabalhe de forma correta e independente do index.
+
+Assim como os templates para páginas estáticas, os templates de categorias e tags funcionam com id e slug, além dos tamplates principais. Começaremos com categorias.
+
+### Template para categorias
+
+Criaremos um template chamado category.php, que é o template padrão para categorias, utilizado pelo Wordpress e presente na documentação de hierarquia.
+
+Copiaremos o mesmo conteúdo da index.php e alteraremos somente o título, porque o loop será o mesmo, uma vez que o Wordpress sabe interpretar cada contexto que está inserido.
+
+```php
+<?php get_header(); ?>
+<?php //get_header('personalizado'); ?>
+
+    <div class="container">
+        <h3>Posts da categoria - <?= single_cat_title(); ?></h3>
+        <div class="row">
+            <div class="col-md-9">
+                <?php
+                if (have_posts()):
+                    echo '<ul class="media-list">';
+                    while (have_posts()) : the_post();
+                        // Formando estutura da thumbnail com Bootstrap
+                        $image = '';
+                        if (has_post_thumbnail()):
+                            $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
+                                get_the_permalink(), get_the_post_thumbnail());
+                        endif;
+
+                        // Formando estrutura de conteúdo com Boostrap
+                        $body = sprintf('<div class="media-body"><h3 class="media-heading"><a href="%s">%s</a></h3><p>%s</p></div>',
+                            get_the_permalink(), get_the_title(), get_the_content('Mais[...]'));
+
+                        // Imprimindo estrutura completa de imagem com conteúdo
+                        printf('<li>%s%s</li>', $image, $body);
+                        echo '<hr>';
+                    endwhile;
+                    echo "<ul>";
+                else:
+                    echo "<p>Ainda não temos post.</p>";
+                endif;
+                ?>
+            </div>
+            <div class="col-md-3">
+                <?php get_sidebar(); ?>
+            </div>
+            <!--<div class="col-md-3">
+            <?php //get_sidebar('personalizado'); ?>
+        </div>-->
+        </div>
+    </div>
+
+<?php //get_footer('personalizado'); ?>
+<?php get_footer(); ?>
+```
+
+Observem que utilizamos o mesmo código do template index, mas alteramos o título, que é formado de maneira dinâmica, de acordo com a categoria. Para isto, utilizamos uma função que resgata, automaticamente, a categoria que estamos filtrando.
+
+```
+single_cat_title();
+```
+
+Este é o template que será utilizado para listar todas as categorias, a partir de agora. Caso queiram estilizar uma página para uma categoria específica, vocês devem seguir a hierarquia, do mesmo modo que fizemos com as páginas.
+
+Identifiquem o id da categoria ou slug e criem o arquivo category-id.php ou category-slug.php. Desta forma, quando se tratar da categoria em questão, o Wordpress utilizará o template criado. Qualquer outra categoria utilizará o category.php.
+
+### Template para Tags
+
+O template tag funciona exatamente da mesma maneira que o template category. Só precimos mudar a nomenclatura do template padrão.
+
+Criaremos o template chamado tag.php e desta forma já teremos um arquivo responsável por listar todas as tags. Se quiserem estilizar uma página para uma tag específica, devem seguir a hierarquia, do mesmo modo que fizemos com páginas e categorias.
+
+Identifiquem o id da tag ou slug e criem o arquivo tag-id.php ou tag-slug.php. Desta forma, quando se tratar da tag em questão, o Wordpress utilizará o template criado. Qualquer outra tag utilizará o tag.php.
+
+O conteúdo do arquivo tag.php será o mesmo do arquivo category, apenas mudamos a função responsável por resgatar a tag atual, para formar o título dinâmico.
+
+```
+single_tag_title();
+```
+
+### Conclusão
+
+O Wordpress é muito simples de trabalhar, basta que entendam, muito bem, a hierarquia de templates e leiam a documentação. A curva de aprendizagem é baixa e vocês, em pouco tempo, conseguirão criar um blog, site ou um portal de notícias.
+
+Na estrutura do Wordpress, vocês conseguem criar o template específico para cada elemento e também o genérico, que irá funcionar para todos. Fiquem atentos a esta estrutura para que possam utilizar o framework da melhor maneira possível.
+
 [Voltar ao Índice](#indice)
 
 ---
