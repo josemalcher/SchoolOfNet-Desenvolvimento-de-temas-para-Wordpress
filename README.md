@@ -1489,6 +1489,93 @@ Na estrutura do Wordpress, vocês conseguem criar o template específico para ca
 ---
 ## <a name="parte23">Criando busca para post</a>
 
+Criaremos um mecanismo de busca para o site. Adicionaremos na sidebar, mas vocês podem inserir onde quiserem, no layout.
+
+Criaremos um arquivo para conter o código do formulário, que será responsável pela busca. Como utilizaremos em vários templates, decidimos criar desta forma, para que possamos reutilizar em todos.
+
+Para isso, criaremos o arquivo com o nome de searchform.php. Vocês podem criar com o nome que quiserem. Com este nome existe uma template tag que é capaz de puxar, automaticamente, este arquivo. Por isso, utilizaremos este nome, para seguir o padrão do Wordpress.
+
+### Conteúdo do arquivo searchform.php
+
+```php
+<form class="form-horizontal" action="<?= home_url('/'); ?>" method="get">
+    <div class="form-group">
+        <input type="search" class="form-control" name="s" value="<?php echo get_search_query(); ?>">
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary">Ir</button>
+    </div>
+</form>
+```
+
+### Chamando template searchform.php com template tag
+
+No arquivo sidebar.php, chamaremos a template tag get_search_form();, vocês podem chamar onde quiserem e quantas vezes quiserem. Esta função pega o formulário que criamos no arquivo searchform.php.
+
+Adicionamos antes das listagens de categorias e tags.
+
+```php
+<?php get_search_form(); ?>
+```
+
+### Criando template search.php
+
+De acordo com a hierarquia, se o o Wordpress não encontrar um template search.php ele buscará o index.php direto. Se já executaram os passos acima, as buscas devem estar funcionando. Criaremos o template search.php para termos um template específico para busca. Assim, conseguimos personalizar os resultados.
+
+#### Conteúdo do arquivo search.php
+
+```php
+<?php get_header(); ?>
+<?php //get_header('personalizado'); ?>
+
+<div class="container">
+    <h3>Resultado de posts por <?= get_search_query(); ?></h3>
+    <div class="row">
+        <div class="col-md-9">
+            <?php
+            if(have_posts()):
+                echo '<ul class="media-list">';
+                while (have_posts()) : the_post();
+                    // Formando estutura da thumbnail com Bootstrap
+                    $image = '';
+                    if(has_post_thumbnail()):
+                        $image = sprintf('<div class="media-left"><a href="%s">%s</a></div>',
+                        get_the_permalink() , get_the_post_thumbnail());
+                    endif;
+
+                    // Formando estrutura de conteúdo com Boostrap
+                    $body = sprintf('<div class="media-body"><h3 class="media-heading"><a href="%s">%s</a></h3><p>%s</p></div>',
+                    get_the_permalink(), get_the_title(), get_the_content('Mais[...]'));
+
+                    // Imprimindo estrutura completa de imagem com conteúdo
+                    printf('<li>%s%s</li>', $image, $body);
+                    echo '<hr>';
+                endwhile;
+                echo "<ul>";
+            else:
+                echo "<p>Nenhum conteúdo encontrado.</p>";
+            endif;
+            ?>
+        </div>
+        <div class="col-md-3">
+            <?php get_sidebar(); ?>
+        </div>
+        <!--<div class="col-md-3">
+            <?php //get_sidebar('personalizado'); ?>
+        </div>-->
+    </div>
+</div>
+
+<?php //get_footer('personalizado'); ?>
+<?php get_footer(); ?>
+```
+
+Duplicamos o arquivo category.php para reaproveitar o código e alteramos apenas o título, para que fique dinâmico. Desta forma, o texto pesquisado aparece, dinamicamente, no título do template.
+
+Para isso, utilizamos uma template tag chamada get_search_query();. A mesma, é utilizada no template searchform.php, para que o usuário consiga ter o histórico de sua busca, no campo do formulário.
+
+Depois de criado o template search.php, vocês podem realizar novas buscas e notarão que não está mais utilizando o index.php para listar os resultados.
+
 [Voltar ao Índice](#indice)
 
 ---

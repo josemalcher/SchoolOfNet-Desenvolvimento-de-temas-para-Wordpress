@@ -1,3 +1,4 @@
+<?php get_search_form() ?>
 <h3>Categorias</h3>
 <ul class="list-group">
     <?php
