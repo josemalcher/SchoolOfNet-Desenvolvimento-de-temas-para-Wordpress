@@ -1581,6 +1581,36 @@ Depois de criado o template search.php, vocês podem realizar novas buscas e not
 ---
 ## <a name="parte24">Página 404</a>
 
+Um assunto que é muito importante, mas algumas pessoas esquecem de tratar, é o template 404.php.
+
+Como o Wordpress sempre busca o index.php, caso não encontre os templates na hierarquia, quando tentamos acessar uma página que não existe, nós somos redirecionados para a index.php e caímos na home do site.
+
+Isso não é legal, porque não estamos informando ao usuário que aquela página acessada, anteriormente, não existe.
+
+Veja o conteúdo do arquivo 404.php que criamos.
+
+```php
+<?php get_header(); ?>
+<?php //get_header('personalizado'); ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 text-center">
+                <h3>Erro 404!!</h3>
+                <p class="alert alert-danger">Opss!! Esta página não existe.</p>
+            </div>
+            <div class="col-md-3">
+                <?php get_sidebar(); ?>
+            </div>
+            <!--<div class="col-md-3">
+            <?php //get_sidebar('personalizado'); ?>
+        </div>-->
+        </div>
+    </div>
+<?php //get_footer('personalizado'); ?>
+<?php get_footer(); ?>
+```
+Lembrem-se, sempre, de criarem o arquivo 404.php. Façam sua estilização para informar que o usuário está tentando acessar um conteúdo que não existe e seu sistema ou site será mais completo.
+
 [Voltar ao Índice](#indice)
 
 ---
